@@ -1,0 +1,14 @@
+# Intellij
+.idea
+*.iml
+
+# Distributables
+build
+target
+*.jar
+
+# Processes
+.attach*
+
+# Maven
+dependency-reduced-pom.xml
