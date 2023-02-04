@@ -32,7 +32,7 @@
         <kotest.version>5.5.4</kotest.version>
         <springmockk.version>4.0.0</springmockk.version>
         <picocli.version>4.7.0</picocli.version>
-        <jackson.version>2.14.1</jackson.version>
+        <jackson.version>2.14.2</jackson.version>
     </properties>
 
     <dependencyManagement>
