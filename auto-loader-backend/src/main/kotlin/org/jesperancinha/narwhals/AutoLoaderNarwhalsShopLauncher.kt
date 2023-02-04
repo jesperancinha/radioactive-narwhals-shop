@@ -37,7 +37,7 @@ class AutoLoaderNarwhalsShopLauncher(
         val narwhalsParserCommand = NarwhalsParserCommand()
         CommandLine(narwhalsParserCommand).parseArgs(*args)
         narwhalsParserCommand.apply {
-            narwhalsWebShopDao.loadWebShop(requireNotNull(filename?.parseNarwhals()?.toCurrentNarwhals(days)))
+            filename?.parseNarwhals()?.toCurrentNarwhals(days)?.let { narwhalsWebShopDao.loadWebShop(it) }
         }
     }
 }
