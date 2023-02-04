@@ -1,0 +1,32 @@
+name: RNS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+        - name: Set up JDK 19
+          uses: actions/setup-java@v3
+          with:
+            java-version: '19'
+            distribution: 'adopt'
+
+        - name: Make full build
+          run: make b
+
+        - name: Build and Test
+          run: make build-report
+
+        - name: Coverage Reports
+          run: mvn omni-coveragereporter:report
+          env:
+            COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+            CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
