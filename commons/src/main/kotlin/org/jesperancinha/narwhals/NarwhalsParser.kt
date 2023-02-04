@@ -13,8 +13,8 @@ import java.math.BigDecimal.*
 import java.math.RoundingMode.*
 import java.nio.charset.Charset
 
-val NARWHAL_YEAR_DURATION = 100.toBigDecimal()
-val NARWHAL_YEARS_TO_LIVE = 10.toBigDecimal()
+val NARWHAL_YEAR_DURATION = 1000.toBigDecimal()
+val NARWHAL_YEARS_TO_LIVE = 20.toBigDecimal()
 
 typealias ElapsedDays = BigDecimal
 typealias AgeInYears = BigDecimal
@@ -78,7 +78,8 @@ fun Narwhals.toCurrentStock(elapsedDays: Int) =
         seaCabbage = narwhal
             .map { it.age }
             .filter { it <= NARWHAL_YEARS_TO_LIVE }
-            .sumOf { ageInYears -> ageInYears.seaCabbageForecastInElapsedDays(elapsedDays) },
+            .sumOf { ageInYears -> ageInYears.seaCabbageForecastInElapsedDays(elapsedDays) }
+            .setScale(3, FLOOR),
         tusks = narwhal
             .map { it.age }
             .filter { it <= NARWHAL_YEARS_TO_LIVE }

@@ -23,7 +23,8 @@ The SCAVENGER-1000 is programmed to be very delicate and not disturb any of the 
 Scientists have been able to identify these characteristics about Narwhals:
 
 -   A day around the algae is 8 hours long
--   An average radioactive narwhal (RNarwhal) lifetime is 1000
+-   An average radioactive narwhal (RNarwhal) year is 1000 days
+-   An average RNarwhal lives for 20 Narwhal years
 -   Narwhals have predators but the radioactive ones are able to avoid them and never suffer a predator attack
 -   The offspring of RNarwhals triggers cabbage production after day 20 of their lives
 -   Not all RNarwhals can produce offspring. 

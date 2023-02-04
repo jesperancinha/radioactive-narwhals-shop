@@ -14,23 +14,28 @@ class NarwhalsParserTest {
             .shouldNotBeNull()
             .parseNarwhals()
             .apply {
-                narwhal.shouldHaveSize(3)
+                narwhal.shouldHaveSize(4)
                     .toList()
                     .apply {
                         get(0).apply {
                             name shouldBe "SonicDJ-1"
-                            age shouldBe BigDecimal.valueOf(4)
+                            age shouldBe BigDecimal.valueOf(8)
                             sex shouldBe "f"
                         }
                         get(1).apply {
                             name shouldBe "SonicDJ-2"
-                            age shouldBe BigDecimal.valueOf(8)
+                            age shouldBe BigDecimal.valueOf(19)
                             sex shouldBe "f"
                         }
                         get(2).apply {
                             name shouldBe "SonicDJ-3"
-                            age shouldBe BigDecimal("9.5")
+                            age shouldBe BigDecimal(12)
                             sex shouldBe "f"
+                        }
+                        get(3).apply {
+                            name shouldBe "SonicDJ-4"
+                            age shouldBe BigDecimal(18.5)
+                            sex shouldBe "m"
                         }
                     }
             }
@@ -44,27 +49,32 @@ class NarwhalsParserTest {
             .toOutput(13)
             .apply {
                 stock.apply {
-                    seaCabbage shouldBe BigDecimal("1104.480")
-                    tusks shouldBe 3
+                    seaCabbage shouldBe BigDecimal("17531.280")
+                    tusks shouldBe 4
                 }
                 narwhals.apply {
-                    narwhal.shouldHaveSize(3)
+                    narwhal.shouldHaveSize(4)
                         .toList()
                         .apply {
                             get(0).apply {
                                 name shouldBe "SonicDJ-1"
-                                age shouldBe BigDecimal("4.13")
-                                ageLastTuskShed shouldBe BigDecimal(4)
+                                age shouldBe BigDecimal("8.013")
+                                ageLastTuskShed shouldBe BigDecimal(8)
                             }
                             get(1).apply {
                                 name shouldBe "SonicDJ-2"
-                                age shouldBe BigDecimal("8.13")
-                                ageLastTuskShed shouldBe BigDecimal(8)
+                                age shouldBe BigDecimal("19.013")
+                                ageLastTuskShed shouldBe BigDecimal(19)
                             }
                             get(2).apply {
                                 name shouldBe "SonicDJ-3"
-                                age shouldBe BigDecimal("9.63")
-                                ageLastTuskShed shouldBe BigDecimal(9.5)
+                                age shouldBe BigDecimal("12.013")
+                                ageLastTuskShed shouldBe BigDecimal(12)
+                            }
+                            get(3).apply {
+                                name shouldBe "SonicDJ-4"
+                                age shouldBe BigDecimal("18.513")
+                                ageLastTuskShed shouldBe BigDecimal(18.5)
                             }
                         }
                 }
@@ -78,24 +88,32 @@ class NarwhalsParserTest {
             .toOutput(14)
             .apply {
                 stock.apply {
-                    seaCabbage shouldBe BigDecimal("1188.810")
+                    seaCabbage shouldBe BigDecimal("18878.160")
                     tusks shouldBe 4
                 }
                 narwhals.apply {
-                    narwhal.shouldHaveSize(3)
+                    narwhal.shouldHaveSize(4)
                         .toList()
                         .apply {
                             get(0).apply {
                                 name shouldBe "SonicDJ-1"
-                                age shouldBe BigDecimal("4.14")
+                                age shouldBe BigDecimal("8.014")
+                                ageLastTuskShed shouldBe BigDecimal(8)
                             }
                             get(1).apply {
                                 name shouldBe "SonicDJ-2"
-                                age shouldBe BigDecimal("8.14")
+                                age shouldBe BigDecimal("19.014")
+                                ageLastTuskShed shouldBe BigDecimal(19)
                             }
                             get(2).apply {
                                 name shouldBe "SonicDJ-3"
-                                age shouldBe BigDecimal("9.64")
+                                age shouldBe BigDecimal("12.014")
+                                ageLastTuskShed shouldBe BigDecimal(12)
+                            }
+                            get(3).apply {
+                                name shouldBe "SonicDJ-4"
+                                age shouldBe BigDecimal("18.514")
+                                ageLastTuskShed shouldBe BigDecimal(18.5)
                             }
                         }
                 }
@@ -114,6 +132,6 @@ class NarwhalsParserTest {
 
     @Test
     fun `should test shaving sequence 3`(){
-        14.toBigDecimal().shavingSequence(BigDecimal.valueOf(4)).shouldHaveSize(1)
+        14.toBigDecimal().shavingSequence(BigDecimal.valueOf(4)).shouldHaveSize(0)
     }
 }

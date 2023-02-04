@@ -48,3 +48,7 @@ data class XmlNarwhal(
     @XmlAttribute(name = "sex")
     override var sex: String? = null,
 ) : NarwhalInterface
+
+fun ElapsedDays.dailyCabbages(): BigDecimal = BigDecimal(1200).subtract(this.multiply(BigDecimal(0.06)))
+
+fun ElapsedDays.tusksFall(): BigDecimal = BigDecimal(200).add(this.multiply(BigDecimal(0.01)))
