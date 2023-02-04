@@ -12,3 +12,6 @@ target
 
 # Maven
 dependency-reduced-pom.xml
+
+# GO
+*.tar.gz
