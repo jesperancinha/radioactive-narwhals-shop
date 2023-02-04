@@ -6,3 +6,5 @@ run:
 	cd hello && go run .
 run-quote:
 	cd quote && go get rsc.io/quote && go run .
+run-list:
+	cd  list && go run .
