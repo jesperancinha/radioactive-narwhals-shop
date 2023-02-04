@@ -48,7 +48,6 @@ Examples are given in [backend](./backend)
 ![alt grid](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/tree.svg?token=DBqHBjzDxf)
 ![alt icycle](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/icicle.svg?token=DBqHBjzDxf)
 
-
 ## About me 👨🏽‍💻🚀🏳️‍🌈
 
 [![alt text](https://raw.githubusercontent.com/jesperancinha/project-signer/master/project-signer-templates/icons-20/JEOrgLogo-20.png "João Esperancinha Homepage")](http://joaofilipesabinoesperancinha.nl)
