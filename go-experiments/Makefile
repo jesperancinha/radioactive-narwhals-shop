@@ -3,4 +3,6 @@ install-go-linux:
 	sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.tar.gz
 	export PATH=$PATH:/usr/local/go/bin
 run:
-	go run .
+	cd hello && go run .
+run-quote:
+	cd quote && go get rsc.io/quote && go run .
