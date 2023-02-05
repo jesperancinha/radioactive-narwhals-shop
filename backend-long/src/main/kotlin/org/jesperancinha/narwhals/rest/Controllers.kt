@@ -1,7 +1,7 @@
 package org.jesperancinha.narwhals.rest
 
-import org.jesperancinha.narwhals.CurrentNarwhals
-import org.jesperancinha.narwhals.XmlNarwhals
+import org.jesperancinha.narwhals.safe.CurrentNarwhals
+import org.jesperancinha.narwhals.safe.XmlNarwhals
 import org.jesperancinha.narwhals.dao.CustomerOrder
 import org.jesperancinha.narwhals.dao.NarwhalsWebShopDao
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +25,7 @@ internal class NarwhalsShopController(
         value = ["/load"],
         consumes = [MediaType.APPLICATION_XML_VALUE]
     )
-    suspend fun loadNarwhals(@RequestBody narwhals: XmlNarwhals): ResponseEntity<String> =
+    suspend fun loadNarwhals(@RequestBody narwhals: org.jesperancinha.narwhals.safe.XmlNarwhals): ResponseEntity<String> =
         narwhalsWebShopDao.loadWebShop(narwhals)
             .run { ResponseEntity.status(HttpStatus.RESET_CONTENT).build() }
 

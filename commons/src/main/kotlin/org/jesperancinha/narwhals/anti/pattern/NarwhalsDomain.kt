@@ -1,4 +1,4 @@
-package org.jesperancinha.narwhals
+package org.jesperancinha.narwhals.anti.pattern
 
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonProperty

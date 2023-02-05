@@ -1,4 +1,4 @@
-package org.jesperancinha.narwhals
+package org.jesperancinha.narwhals.safe
 
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull

@@ -1,5 +1,9 @@
 package org.jesperancinha.narwhals
 
+import org.jesperancinha.narwhals.safe.CurrentNarwhal
+import org.jesperancinha.narwhals.safe.Output
+import org.jesperancinha.narwhals.safe.parseNarwhals
+import org.jesperancinha.narwhals.safe.toOutput
 import picocli.CommandLine
 import picocli.CommandLine.Command
 import picocli.CommandLine.Option

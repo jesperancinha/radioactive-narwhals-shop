@@ -1,6 +1,6 @@
 package org.jesperancinha.narwhals.rest
 
-import org.jesperancinha.narwhals.Narwhal
+import org.jesperancinha.narwhals.safe.Narwhal
 import org.jesperancinha.narwhals.dao.CustomerOrder
 import org.jesperancinha.narwhals.dao.Order
 import org.jesperancinha.narwhals.dao.OrderResponse
@@ -217,7 +217,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
     }
 }
 
-private fun MutableMap<String, Narwhal>.shouldAssertNarwhals(
+private fun MutableMap<String, org.jesperancinha.narwhals.safe.Narwhal>.shouldAssertNarwhals(
     one: Int,
     two: Int,
     three: Int,

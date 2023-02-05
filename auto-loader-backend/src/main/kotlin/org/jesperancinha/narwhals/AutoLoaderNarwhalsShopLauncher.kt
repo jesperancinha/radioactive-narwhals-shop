@@ -1,6 +1,8 @@
 package org.jesperancinha.narwhals
 
 import org.jesperancinha.narwhals.dao.NarwhalsWebShopDao
+import org.jesperancinha.narwhals.safe.parseNarwhals
+import org.jesperancinha.narwhals.safe.toCurrentNarwhals
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

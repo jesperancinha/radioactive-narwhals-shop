@@ -1,4 +1,4 @@
-package org.jesperancinha.narwhals
+package org.jesperancinha.narwhals.vanilla
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.DeserializationFeature
@@ -111,13 +111,14 @@ fun ElapsedDays.tuskShedSequence(ageYears: BigDecimal) =
         tuskShedDay < this.subtract(ONE) && ageYears <= NARWHAL_YEARS_TO_LIVE
     }.filter { (tuskShedDay, _) -> tuskShedDay != ZERO }.toList()
 
-fun NarwhalsInterface<NarwhalInterface>.toDomain() = Narwhals(
-    narwhal = requireNotNull(narwhal?.map {
-        Narwhal(
-            name = requireNotNull(it.name),
-            age = requireNotNull(it.age),
-            sex = requireNotNull(it.sex)
+fun NarwhalsInterface<NarwhalInterface>.toDomain() =
+    Narwhals(
+        narwhal = requireNotNull(narwhal?.map {
+            Narwhal(
+                name = requireNotNull(it.name),
+                age = requireNotNull(it.age),
+                sex = requireNotNull(it.sex)
+            )
+        }
         )
-    }
     )
-)
