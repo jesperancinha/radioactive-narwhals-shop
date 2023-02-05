@@ -8,6 +8,8 @@
     <modules>
         <module>commons</module>
         <module>backend</module>
+        <module>backend-long</module>
+        <module>backend-long-vanilla</module>
         <module>rn-data-reader</module>
         <module>auto-loader-backend</module>
     </modules>

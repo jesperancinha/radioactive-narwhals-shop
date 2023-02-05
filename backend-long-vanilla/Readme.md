@@ -1,67 +1,74 @@
-# Radioactive Narwhals Shop
+# Radioactive Narwhals Web-shop Backend
 
----
+## How to run
 
-[![Twitter URL](https://img.shields.io/twitter/url?logoColor=blue&style=social&url=https%3A%2F%2Fimg.shields.io%2Ftwitter%2Furl%3Fstyle%3Dsocial)](https://twitter.com/intent/tweet?text=%20Checkout%20this%20%40github%20repo%20by%20%40joaofse%20%F0%9F%91%A8%F0%9F%8F%BD%E2%80%8D%F0%9F%92%BB%3A%20https%3A//github.com/jesperancinha/radioactive-narwhals-shop)
-[![Generic badge](https://img.shields.io/static/v1.svg?label=GitHub&message=Radioactive%20Narwhals%20Shop%20☢%20&color=informational)](https://github.com/jesperancinha/radioactive-narwhals-shop)
+Use Intellij or run via the command line
 
-[![RNS Build](https://github.com/jesperancinha/radioactive-narwhals-shop/actions/workflows/rns.yml/badge.svg)](https://github.com/jesperancinha/radioactive-narwhals-shop/actions/workflows/rns.yml)
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b324ede66f994efda4a7f9f22b9fdf3c)](https://www.codacy.com/gh/jesperancinha/radioactive-narwhals-shop/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jesperancinha/radioactive-narwhals-shop&amp;utm_campaign=Badge_Grade)
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/b324ede66f994efda4a7f9f22b9fdf3c)](https://www.codacy.com/gh/jesperancinha/radioactive-narwhals-shop/dashboard?utm_source=github.com&utm_medium=referral&utm_content=jesperancinha/radioactive-narwhals-shop&utm_campaign=Badge_Coverage)
-[![codecov](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graph/badge.svg?token=DBqHBjzDxf)](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop)
-[![Coverage Status](https://coveralls.io/repos/github/jesperancinha/radioactive-narwhals-shop/badge.svg?branch=main)](https://coveralls.io/github/jesperancinha/radioactive-narwhals-shop?branch=main)
-
-[![GitHub language count](https://img.shields.io/github/languages/count/jesperancinha/radioactive-narwhals-shop.svg)](#)
-[![GitHub top language](https://img.shields.io/github/languages/top/jesperancinha/radioactive-narwhals-shop.svg)](#)
-[![GitHub top language](https://img.shields.io/github/languages/code-size/jesperancinha/radioactive-narwhals-shop.svg)](#)
-
----
-
-## Intro
-
---- Under Construction ---
-
-This repository is here to show and try to break the stereotype that sequences "are complex".
-Kotlin sequences do allow for a much better presentable and beautiful code and standardizes the way we implement
-algorithms.
-
-The story that backs-up this article is located in [Narwhals.md](Narwhals.md).
-
-## Project Layout
-
-- [commons](commons) - A common library where the domain and the data transfer objects are shared
-- [rn-data-reader](rn-data-reader) - A data reader for input files in XML format
-- [backend](backend) - The go-to solution for the current case
-- [backend-long](backend-long) - One solution that avoids using decimals by using long
-- [backend-long-vanilla](backend-long-vanilla) - A solution based on old paradigms, filled with anti-patterns and old software patterns now obsolete
-
->NOTE: The `long` and `long-vanilla` solutions are currently being implemented, and they have started out as blatant copies of the `backend`.
-
-## How to build
-
-Build everything in one go with command:
+1.  Compilation
 
 ```shell
-make b
+mvn clean install  package
 ```
 
-## About Narwhals
+2.  Run
 
-<div align="center">
-      <a title="Narwhals : animated music video : MrWeebl" href="https://www.youtube.com/watch?v=ykwqXuMPsoc">
-     <img 
-          src="https://img.youtube.com/vi/ykwqXuMPsoc/0.jpg" 
-          style="width:50%;">
-      </a>
-</div>
+```shell
+java -jar target/backend.jar
+```
 
-## Coverage Graphs
+## Test commands
+```shell
+curl -i -X POST http://localhost:8080/rnarwhals-shop/load -H 'Content-Type: application/xml' --data-binary "@../commons/src/test/resources/narwhals1.xml"
+```
 
-![alt sunburst](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/sunburst.svg?token=DBqHBjzDxf)
-![alt grid](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/tree.svg?token=DBqHBjzDxf)
-![alt icycle](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/icicle.svg?token=DBqHBjzDxf)
+```shell
+curl -i http://localhost:8080/rnarwhals-shop/stock/13 -H 'Content-Type: application/json'
+```
+
+```shell
+curl -i http://localhost:8080/rnarwhals-shop/narwhals/13 -H 'Content-Type: application/json'
+```
+
+```shell
+curl -i -X POST http://localhost:8080/rnarwhals-shop/load -H 'Content-Type: application/xml' -d "<narwhals>
+    <narwhal name=\"SonicDJ1\" age=\"4\" sex=\"f\" />
+    <narwhal name=\"SonicDJ2\" age=\"8\" sex=\"f\" />
+    <narwhal name=\"SonicDJ3\" age=\"9.5\" sex=\"f\" />
+</narwhals>
+"
+```
+
+```shell
+curl -i -X POST http://localhost:8080/rnarwhals-shop/order/200 -H 'Content-Type: application/json' -d "{
+\"customer\": \"PinkOgre\",
+\"order\": { \"seaCabbage\": 1100, \"tusks\": \"3\" }
+}
+"
+```
+
+```shell
+curl -i -X POST http://localhost:8080/rnarwhals-shop/order/90 -H 'Content-Type: application/json' -d "{
+\"customer\": \"PinkOgre\",
+\"order\": { \"seaCabbage\": 1200, \"tusks\": \"3\" }
+}
+"
+````
+
+```shell
+curl -i -X POST http://localhost:8080/rnarwhals-shop/order/5 -H 'Content-Type: application/json' -d "{
+\"customer\": \"PinkOgre\",
+\"order\": { \"seaCabbage\": 20, \"tusks\": \"3\" }
+}
+"
+```
+
+```shell
+curl -i -X POST http://localhost:8080/rnarwhals-shop/order/6 -H 'Content-Type: application/json' -d "{
+\"customer\": \"PinkOgre\",
+\"order\": { \"seaCabbage\": 20, \"tusks\": \"3\" }
+}
+"
+```
 
 ## About me 👨🏽‍💻🚀🏳️‍🌈
 
