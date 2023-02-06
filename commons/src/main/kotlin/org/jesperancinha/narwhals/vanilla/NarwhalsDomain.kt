@@ -8,7 +8,7 @@ import java.math.BigDecimal
 
 interface NarwhalInterface {
     val name: String?
-    val age: BigDecimal?
+    val age: Long?
     val sex: String?
 }
 
@@ -27,7 +27,7 @@ data class Narwhal(
     @JsonProperty
     override val name: String,
     @JsonProperty
-    override val age: BigDecimal,
+    override val age: Long,
     @JsonProperty
     override val sex: String,
 ) : NarwhalInterface
@@ -44,11 +44,10 @@ data class XmlNarwhal(
     @XmlAttribute(name = "name")
     override var name: String? = null,
     @XmlAttribute(name = "age")
-    override var age: BigDecimal? = null,
+    override var age: Long? = null,
     @XmlAttribute(name = "sex")
     override var sex: String? = null,
 ) : NarwhalInterface
 
-fun ElapsedDays.dailyCabbages(): BigDecimal = BigDecimal(1200).subtract(this.multiply(BigDecimal(0.06)))
-
-fun ElapsedDays.tusksFall(): BigDecimal = BigDecimal(200).add(this.multiply(BigDecimal(0.01)))
+fun ElapsedDays.dailyCabbages() = (1200 - this * 0.06) * 1000
+fun ElapsedDays.tusksFall() = (200 + this * 0.01) * 1000
