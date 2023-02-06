@@ -57,6 +57,8 @@ make b
       </a>
 </div>
 
+- [Narwhal Wikipedia](https://en.wikipedia.org/wiki/Narwhal)
+
 ## Coverage Graphs
 
 ![alt sunburst](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/sunburst.svg?token=DBqHBjzDxf)
