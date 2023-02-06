@@ -3,8 +3,12 @@ package org.jesperancinha.narwhals.vanilla
 import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonRootName
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import jakarta.xml.bind.annotation.*
-import java.math.BigDecimal
+import kotlin.reflect.KClass
 
 interface NarwhalInterface {
     val name: String?
@@ -27,10 +31,15 @@ data class Narwhal(
     @JsonProperty
     override val name: String,
     @JsonProperty
+    @JsonDeserialize(using = DecimalToMillisDeserializer::class)
     override val age: Long,
     @JsonProperty
     override val sex: String,
 ) : NarwhalInterface
+
+class DecimalToMillisDeserializer : JsonDeserializer<Long>() {
+    override fun deserialize(p0: JsonParser?, p1: DeserializationContext?) = ((p0?.valueAsDouble ?: 0.0) * 1000).toLong()
+}
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "XmlNarwhals", propOrder = ["narwhal"])

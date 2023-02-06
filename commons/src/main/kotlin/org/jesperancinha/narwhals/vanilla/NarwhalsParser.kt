@@ -14,6 +14,7 @@ import java.nio.charset.Charset
 
 val NARWHAL_YEAR_DURATION = 1000
 val NARWHAL_YEARS_TO_LIVE = 20
+val VANILLA_FACTOR = 1000
 
 typealias ElapsedDays = Long
 typealias AgeInYears = Long
@@ -62,10 +63,10 @@ fun Narwhals.toCurrentNarwhals(elapsedDays: Long) = CurrentNarwhals(
     narwhal = this.narwhal.map {
         CurrentNarwhal(
             name = it.name,
-            age = it.age + (elapsedDays / NARWHAL_YEAR_DURATION),
+            age = it.age + (elapsedDays * VANILLA_FACTOR / NARWHAL_YEAR_DURATION),
             ageLastTuskShed = it.age
                 .tuskSheddingTable(elapsedDays)
-                .maxOfOrNull { (_, age) -> age } ?: 0L,
+                .maxOfOrNull { (_, age) -> age } ?: it.age,
             sex = it.sex
         )
     }
@@ -75,11 +76,11 @@ fun Narwhals.toCurrentStock(elapsedDays: Long) =
     CurrentStock(
         seaCabbage = narwhal
             .map { it.age }
-            .filter { it <= NARWHAL_YEARS_TO_LIVE }
+            .filter { it / VANILLA_FACTOR <= NARWHAL_YEARS_TO_LIVE }
             .sumOf { ageInYears -> ageInYears.seaCabbageForecastInElapsedDays(elapsedDays) },
         tusks = narwhal
             .map { it.age }
-            .filter { it <= NARWHAL_YEARS_TO_LIVE }
+            .filter { it / VANILLA_FACTOR <= NARWHAL_YEARS_TO_LIVE }
             .sumOf { ageInYears -> ageInYears.tusksForecastInElapsedDays(elapsedDays) }
     )
 
@@ -89,9 +90,9 @@ private fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long) =
 private fun AgeInYears.tuskSheddingTable(elapsedDays: Long) = elapsedDays.tuskShedSequence(this)
 
 private fun ElapsedDays.seaCabbageForecastInElapsedDays(elapsedDays: Long) = (0 until elapsedDays)
-    .filter { days -> this + (days / NARWHAL_YEAR_DURATION) < NARWHAL_YEARS_TO_LIVE }
+    .filter { days -> (this + (days / NARWHAL_YEAR_DURATION * VANILLA_FACTOR)) / VANILLA_FACTOR < NARWHAL_YEARS_TO_LIVE }
     .fold(0L) { accumulatedCabbages, elapsedDay ->
-        accumulatedCabbages + (((this * (NARWHAL_YEAR_DURATION)) + (elapsedDay))).dailyCabbages().toLong()
+        accumulatedCabbages + ((this * NARWHAL_YEAR_DURATION / VANILLA_FACTOR) + elapsedDay).dailyCabbages().toLong()
     }
 
 fun NarwhalsXmlText.parseNarwhals() = kotlinXmlMapper.readValue<Narwhals>(this)
@@ -102,11 +103,12 @@ fun InputStream.parseNarwhals() = this.readAllBytes().toString(Charset.defaultCh
 
 fun ElapsedDays.tuskShedSequence(ageYears: Long) =
     generateSequence(0L to ageYears) { (tuskShedDay, ageYears) ->
-        val shaveAfter = (ageYears * NARWHAL_YEAR_DURATION / 1000).tusksFall().toLong()
-        (tuskShedDay + shaveAfter) to (ageYears + (shaveAfter / NARWHAL_YEAR_DURATION * 1000))
+        val shaveAfter = (ageYears * NARWHAL_YEAR_DURATION / VANILLA_FACTOR).tusksFall().toLong() / VANILLA_FACTOR
+        (tuskShedDay + shaveAfter) to (ageYears + (shaveAfter * VANILLA_FACTOR / NARWHAL_YEAR_DURATION))
     }.takeWhile { (tuskShedDay, ageYears) ->
-        tuskShedDay < (this - 1) && ageYears <= NARWHAL_YEARS_TO_LIVE
-    }.filter { (tuskShedDay, _) -> tuskShedDay != 0L }.toList()
+       tuskShedDay < this && ageYears <= NARWHAL_YEARS_TO_LIVE * VANILLA_FACTOR
+    }.filter { (tuskShedDay, _) ->
+        tuskShedDay != 0L }.toList()
 
 fun NarwhalsInterface<NarwhalInterface>.toDomain() =
     Narwhals(
