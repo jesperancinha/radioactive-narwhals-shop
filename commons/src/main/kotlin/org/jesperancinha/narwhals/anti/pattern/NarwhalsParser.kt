@@ -11,6 +11,7 @@ import java.io.InputStream
 import java.math.BigDecimal.*
 import java.math.RoundingMode.*
 import java.nio.charset.Charset
+import kotlin.math.min
 
 val NARWHAL_YEAR_DURATION = 1000
 val NARWHAL_YEARS_TO_LIVE = 20
@@ -100,17 +101,19 @@ fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long): Pair<Int, AgeInYea
 }
 
 
-private fun ElapsedDays.seaCabbageForecastInElapsedDays(elapsedDays: Long) = (0 until elapsedDays)
-    .let {
-        var accumulatedCabbages = 0L
-        it.forEach {elapsedDay->
-            if((this + (elapsedDay / NARWHAL_YEAR_DURATION * VANILLA_FACTOR)) / VANILLA_FACTOR < NARWHAL_YEARS_TO_LIVE) {
+private fun ElapsedDays.seaCabbageForecastInElapsedDays(elapsedDays: Long) =
+    (0 until min(
+        (NARWHAL_YEARS_TO_LIVE * VANILLA_FACTOR - this) * NARWHAL_YEAR_DURATION * VANILLA_FACTOR,
+        elapsedDays
+    ))
+        .let {
+            var accumulatedCabbages = 0L
+            it.forEach { elapsedDay ->
                 accumulatedCabbages += ((this * NARWHAL_YEAR_DURATION / VANILLA_FACTOR) + elapsedDay).dailyCabbages()
                     .toLong()
             }
+            accumulatedCabbages
         }
-        accumulatedCabbages
-    }
 
 
 fun NarwhalsXmlText.parseNarwhals() = kotlinXmlMapper.readValue<Narwhals>(this)

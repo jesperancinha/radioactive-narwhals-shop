@@ -34,8 +34,8 @@ The story that backs-up this article is located in [Narwhals.md](Narwhals.md).
 - [commons](commons) - A common library where the domain and the data transfer objects are shared
 - [rn-data-reader](rn-data-reader) - A data reader for input files in XML format
 - [backend](backend) - The go-to solution for the current case
-- [backend-long](backend-long) - One solution that avoids using decimals by using long
-- [backend-long-vanilla](backend-long-vanilla) - A solution based on old paradigms, filled with anti-patterns and old software patterns now obsolete
+- [backend-long](backend-long) -  A solution based on old paradigms, filled with anti-patterns and old software patterns now obsolete. In the code references to anti-pattern will be used to refer code used by this module.
+- [backend-long-vanilla](backend-long-vanilla) - One solution that avoids using decimals by using long
 
 >NOTE: The `long` and `long-vanilla` solutions are currently being implemented, and they have started out as blatant copies of the `backend`.
 
