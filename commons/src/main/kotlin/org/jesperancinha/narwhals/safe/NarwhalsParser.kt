@@ -105,8 +105,8 @@ fun InputStream.parseNarwhals() = this.readAllBytes().toString(Charset.defaultCh
 
 fun ElapsedDays.tuskShedSequence(ageYears: BigDecimal) =
     generateSequence(ZERO to ageYears) { (tuskShedDay, ageYears) ->
-        val shaveAfter = ageYears.multiply(NARWHAL_YEAR_DURATION).tusksFall()
-        tuskShedDay.plus(shaveAfter) to ageYears.plus(shaveAfter / NARWHAL_YEAR_DURATION)
+        val shedAfter = ageYears.multiply(NARWHAL_YEAR_DURATION).tusksFall()
+        tuskShedDay.plus(shedAfter) to ageYears.plus(shedAfter / NARWHAL_YEAR_DURATION)
     }.takeWhile { (tuskShedDay, ageYears) ->
         tuskShedDay < this.subtract(ONE) && ageYears <= NARWHAL_YEARS_TO_LIVE
     }.filter { (tuskShedDay, _) -> tuskShedDay != ZERO }.toList()
