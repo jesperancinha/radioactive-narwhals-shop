@@ -144,31 +144,31 @@ class NarwhalsParserTest {
 
     @Test
     fun `should test tuskShedding of day 13`() {
-        13L.tuskShedSequence(4000L).shouldHaveSize(0)
+        4000L.tusksForecastInElapsedDays(13).first shouldBe 0
     }
 
     @Test
     fun `should test tuskShedding of day 12`() {
-        12L.tuskShedSequence(4000L).shouldHaveSize(0)
+        4000L.tusksForecastInElapsedDays(12L).first shouldBe 0
     }
 
     @Test
     fun `should test tuskShedding of day 14`() {
-        14L.tuskShedSequence(4000L).shouldHaveSize(0)
+        4000L.tusksForecastInElapsedDays(14L).first shouldBe 0
     }
 
     @Test
     fun `should test tuskShedding sequence of day 1000`() {
-        1000L.tuskShedSequence(4000L).shouldHaveSize(4)
+        4000L.tusksForecastInElapsedDays(1000L).first shouldBe 4
     }
 
     @Test
     fun `should test tuskShedding sequence of day 20000`() {
-        20000L.tuskShedSequence(4000L).shouldHaveSize(51)
+        4000L.tusksForecastInElapsedDays(20000L).first shouldBe 51
     }
 
     @Test
     fun `should test tuskShedding sequence of day 40000`() {
-        40000L.tuskShedSequence(4000L).shouldHaveSize(51)
+        4000L.tusksForecastInElapsedDays(40000L).first shouldBe 51
     }
 }

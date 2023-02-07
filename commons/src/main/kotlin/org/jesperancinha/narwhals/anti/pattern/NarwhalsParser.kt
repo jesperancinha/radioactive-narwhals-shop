@@ -65,8 +65,8 @@ fun Narwhals.toCurrentNarwhals(elapsedDays: Long) = CurrentNarwhals(
             name = it.name,
             age = it.age + (elapsedDays * VANILLA_FACTOR / NARWHAL_YEAR_DURATION),
             ageLastTuskShed = it.age
-                .tuskSheddingTable(elapsedDays)
-                .maxOfOrNull { (_, age) -> age } ?: it.age,
+                .tusksForecastInElapsedDays(elapsedDays)
+                .second,
             sex = it.sex
         )
     }
@@ -81,33 +81,24 @@ fun Narwhals.toCurrentStock(elapsedDays: Long) =
         tusks = narwhal
             .map { it.age }
             .filter { it / VANILLA_FACTOR <= NARWHAL_YEARS_TO_LIVE }
-            .sumOf { ageInYears -> ageInYears.tusksForecastInElapsedDays(elapsedDays) } - 1
+            .sumOf { ageInYears -> ageInYears.tusksForecastInElapsedDays(elapsedDays).first + 1 }
     )
 
-private fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long): Int {
+fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long): Pair<Int, AgeInYears> {
     var currentAge = this
     var count = 0
     var tuskShedDay = 0L
-    while (tuskShedDay < this && currentAge <= NARWHAL_YEARS_TO_LIVE * VANILLA_FACTOR) {
+    var lastAge = this
+    while (tuskShedDay < elapsedDays - 1 && currentAge <= NARWHAL_YEARS_TO_LIVE * VANILLA_FACTOR) {
         val shedAfter = (currentAge * NARWHAL_YEAR_DURATION / VANILLA_FACTOR).tusksFall().toLong() / VANILLA_FACTOR
         tuskShedDay += shedAfter
-        currentAge += currentAge + (shedAfter * VANILLA_FACTOR / NARWHAL_YEAR_DURATION)
+        lastAge = currentAge
+        currentAge += shedAfter * VANILLA_FACTOR / NARWHAL_YEAR_DURATION
         count++
     }
-    return count
+    return (count - 1) to lastAge
 }
 
-fun ElapsedDays.tuskShedSequence(ageYears: Long) =
-    generateSequence(0L to ageYears) { (tuskShedDay, ageYears) ->
-        val shedAfter = (ageYears * NARWHAL_YEAR_DURATION / VANILLA_FACTOR).tusksFall().toLong() / VANILLA_FACTOR
-        (tuskShedDay + shedAfter) to (ageYears + (shedAfter * VANILLA_FACTOR / NARWHAL_YEAR_DURATION))
-    }.takeWhile { (tuskShedDay, ageYears) ->
-        tuskShedDay < this && ageYears <= NARWHAL_YEARS_TO_LIVE * VANILLA_FACTOR
-    }.filter { (tuskShedDay, _) ->
-        tuskShedDay != 0L
-    }.toList()
-
-private fun AgeInYears.tuskSheddingTable(elapsedDays: Long) = elapsedDays.tuskShedSequence(this)
 
 private fun ElapsedDays.seaCabbageForecastInElapsedDays(elapsedDays: Long) = (0 until elapsedDays)
     .filter { days -> (this + (days / NARWHAL_YEAR_DURATION * VANILLA_FACTOR)) / VANILLA_FACTOR < NARWHAL_YEARS_TO_LIVE }
