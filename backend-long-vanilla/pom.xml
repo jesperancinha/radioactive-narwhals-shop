@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>backend-long-vanilla</artifactId>
-    <name>RadioactiveNarwhalsShop :: Backend</name>
+    <name>RadioactiveNarwhalsShop :: Long Vanilla Solution</name>
     <dependencies>
         <dependency>
             <groupId>org.jesperancinha.narwhals</groupId>
