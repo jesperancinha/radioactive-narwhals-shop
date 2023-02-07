@@ -101,10 +101,17 @@ fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long): Pair<Int, AgeInYea
 
 
 private fun ElapsedDays.seaCabbageForecastInElapsedDays(elapsedDays: Long) = (0 until elapsedDays)
-    .filter { days -> (this + (days / NARWHAL_YEAR_DURATION * VANILLA_FACTOR)) / VANILLA_FACTOR < NARWHAL_YEARS_TO_LIVE }
-    .fold(0L) { accumulatedCabbages, elapsedDay ->
-        accumulatedCabbages + ((this * NARWHAL_YEAR_DURATION / VANILLA_FACTOR) + elapsedDay).dailyCabbages().toLong()
+    .let {
+        var accumulatedCabbages = 0L
+        it.forEach {elapsedDay->
+            if((this + (elapsedDay / NARWHAL_YEAR_DURATION * VANILLA_FACTOR)) / VANILLA_FACTOR < NARWHAL_YEARS_TO_LIVE) {
+                accumulatedCabbages += ((this * NARWHAL_YEAR_DURATION / VANILLA_FACTOR) + elapsedDay).dailyCabbages()
+                    .toLong()
+            }
+        }
+        accumulatedCabbages
     }
+
 
 fun NarwhalsXmlText.parseNarwhals() = kotlinXmlMapper.readValue<Narwhals>(this)
 
