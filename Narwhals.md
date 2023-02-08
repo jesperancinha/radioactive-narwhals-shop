@@ -30,3 +30,5 @@ Scientists have been able to identify these characteristics about Narwhals:
 -   Not all RNarwhals can produce offspring. 
 -   Females usually produce an offspring of 10 RNarwhals
 -   All other Narwhals produce on average an offspring of 1 RNarwhal via a Parthenogenesis process
+-   Offspring is rare and only happens once every 5 years. A generation is expected every 5 years
+-   Parthenogenesis is ever rarer and only happens once in the whole lifetime of non-female RNarwhals.
