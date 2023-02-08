@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import org.jesperancinha.narwhals.NarwhalInterface
+import org.jesperancinha.narwhals.NarwhalsInterface
 import java.io.File
 import java.io.InputStream
 import java.math.BigDecimal
@@ -33,7 +35,7 @@ data class CurrentStock(
 data class CurrentNarwhals(
     @JsonProperty("narwhals")
     override val narwhal: List<CurrentNarwhal>,
-) : NarwhalsInterface<NarwhalInterface>
+) : NarwhalsInterface<NarwhalInterface<BigDecimal>>
 
 data class CurrentNarwhal(
     @JsonProperty
@@ -43,7 +45,7 @@ data class CurrentNarwhal(
     override val sex: String,
     @JsonProperty("age-last-tusk-shed")
     val ageLastTuskShed: BigDecimal,
-) : org.jesperancinha.narwhals.safe.NarwhalInterface
+) : NarwhalInterface<BigDecimal>
 
 
 internal val kotlinXmlMapper = XmlMapper(JacksonXmlModule().apply {
@@ -111,7 +113,7 @@ fun ElapsedDays.tuskShedSequence(ageYears: BigDecimal) =
         tuskShedDay < this.subtract(ONE) && ageYears <= NARWHAL_YEARS_TO_LIVE
     }.filter { (tuskShedDay, _) -> tuskShedDay != ZERO }.toList()
 
-fun NarwhalsInterface<NarwhalInterface>.toDomain() =
+fun NarwhalsInterface<NarwhalInterface<BigDecimal>>.toDomain() =
     Narwhals(
         narwhal = requireNotNull(narwhal?.map {
             Narwhal(

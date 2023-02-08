@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import org.jesperancinha.narwhals.NarwhalInterface
+import org.jesperancinha.narwhals.NarwhalsInterface
 import java.io.File
 import java.io.InputStream
 import java.math.BigDecimal.*
@@ -13,9 +15,9 @@ import java.math.RoundingMode.*
 import java.nio.charset.Charset
 import kotlin.math.min
 
-val NARWHAL_YEAR_DURATION = 1000
-val NARWHAL_YEARS_TO_LIVE = 20
-val VANILLA_FACTOR = 1000
+const val NARWHAL_YEAR_DURATION = 1000
+const val NARWHAL_YEARS_TO_LIVE = 20
+const val VANILLA_FACTOR = 1000
 
 typealias ElapsedDays = Long
 typealias AgeInYears = Long
@@ -28,13 +30,13 @@ data class Output(
 
 data class CurrentStock(
     val seaCabbage: Long,
-    val tusks: Int,
+    val tusks: Long,
 )
 
 data class CurrentNarwhals(
     @JsonProperty("narwhals")
     override val narwhal: List<CurrentNarwhal>,
-) : NarwhalsInterface<NarwhalInterface>
+) : NarwhalsInterface<NarwhalInterface<Long>>
 
 data class CurrentNarwhal(
     @JsonProperty
@@ -44,8 +46,7 @@ data class CurrentNarwhal(
     override val sex: String,
     @JsonProperty("age-last-tusk-shed")
     val ageLastTuskShed: Long,
-) : NarwhalInterface
-
+) : NarwhalInterface<Long>
 
 internal val kotlinXmlMapper = XmlMapper(JacksonXmlModule().apply {
     setDefaultUseWrapper(false)
@@ -85,7 +86,7 @@ fun Narwhals.toCurrentStock(elapsedDays: Long) =
             .sumOf { ageInYears -> ageInYears.tusksForecastInElapsedDays(elapsedDays).first + 1 }
     )
 
-fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long): Pair<Int, AgeInYears> {
+fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long): Pair<Long, AgeInYears> {
     var currentAge = this
     var count = 0
     var tuskShedDay = 0L
@@ -97,7 +98,7 @@ fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long): Pair<Int, AgeInYea
         currentAge += shedAfter * VANILLA_FACTOR / NARWHAL_YEAR_DURATION
         count++
     }
-    return (count - 1) to lastAge
+    return (count - 1L) to lastAge
 }
 
 
@@ -122,7 +123,7 @@ fun File.parseNarwhals() = this.readText(Charset.defaultCharset()).parseNarwhals
 
 fun InputStream.parseNarwhals() = this.readAllBytes().toString(Charset.defaultCharset()).parseNarwhals()
 
-fun NarwhalsInterface<NarwhalInterface>.toDomain() =
+fun NarwhalsInterface<NarwhalInterface<Long>>.toDomain() =
     Narwhals(
         narwhal = requireNotNull(narwhal?.map {
             Narwhal(

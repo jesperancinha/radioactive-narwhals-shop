@@ -1,6 +1,6 @@
 package org.jesperancinha.narwhals.rest
 
-import org.jesperancinha.narwhals.safe.Narwhal
+import org.jesperancinha.narwhals.vanilla.Narwhal
 import org.jesperancinha.narwhals.dao.CustomerOrder
 import org.jesperancinha.narwhals.dao.Order
 import org.jesperancinha.narwhals.dao.OrderResponse
@@ -51,10 +51,10 @@ class NarwhalsShopControllerTest @Autowired constructor(
                     2,
                     3,
                     4,
-                    8.toBigDecimal(),
-                    19.toBigDecimal(),
-                    12.toBigDecimal(),
-                    18.5.toBigDecimal()
+                    8000,
+                    19000,
+                    12000,
+                    18500
                 )
         }
 
@@ -73,10 +73,10 @@ class NarwhalsShopControllerTest @Autowired constructor(
                     two = 6,
                     three = 7,
                     four = 8,
-                    9.toBigDecimal(),
-                    18.5.toBigDecimal(),
-                    13.6.toBigDecimal(),
-                    11.7.toBigDecimal()
+                    9000,
+                    18500,
+                    13600,
+                    11700
                 )
                 .shouldHaveSize(4)
         }
@@ -118,7 +118,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
             CustomerOrder(
                 customer = "PinkOgre",
                 order = Order(
-                    seaCabbage = 70000.toBigDecimal(),
+                    seaCabbage = 70000000,
                     tusks = 3
                 )
             ), jsonHeaders
@@ -143,7 +143,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
             CustomerOrder(
                 customer = "PinkOgre",
                 order = Order(
-                    seaCabbage = 20.toBigDecimal(),
+                    seaCabbage = 20000,
                     tusks = 1
                 )
             ), jsonHeaders
@@ -168,7 +168,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
             CustomerOrder(
                 customer = "PinkOgre",
                 order = Order(
-                    seaCabbage = 5000.toBigDecimal(),
+                    seaCabbage = 5000000,
                     tusks = 5
                 )
             ), jsonHeaders
@@ -190,7 +190,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
         CustomerOrder(
             customer = "PinkOgre",
             order = Order(
-                seaCabbage = 10.toBigDecimal(),
+                seaCabbage = 10000,
                 tusks = 1
             )
         ), jsonHeaders
@@ -200,7 +200,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
         CustomerOrder(
             customer = "PinkOgre",
             order = Order(
-                seaCabbage = 10.toBigDecimal(),
+                seaCabbage = 10000,
                 tusks = 0
             )
         ), jsonHeaders
@@ -217,38 +217,38 @@ class NarwhalsShopControllerTest @Autowired constructor(
     }
 }
 
-private fun MutableMap<String, org.jesperancinha.narwhals.safe.Narwhal>.shouldAssertNarwhals(
+private fun MutableMap<String, Narwhal>.shouldAssertNarwhals(
     one: Int,
     two: Int,
     three: Int,
     four: Int,
-    numOne: BigDecimal,
-    numTwo: BigDecimal,
-    numThree: BigDecimal,
-    numFour: BigDecimal,
+    ageOne: Long,
+    ageTwo: Long,
+    ageThree: Long,
+    ageFour: Long,
 ) = apply {
     get("SonicDJ$one")
         .shouldNotBeNull().apply {
             name shouldBe "SonicDJ$one"
-            age shouldBe numOne
+            age shouldBe ageOne
             sex shouldBe "f"
         }
     get("SonicDJ$two")
         .shouldNotBeNull().apply {
             name shouldBe "SonicDJ$two"
-            age shouldBe numTwo
+            age shouldBe ageTwo
             sex shouldBe "f"
         }
     get("SonicDJ$three")
         .shouldNotBeNull().apply {
             name shouldBe "SonicDJ$three"
-            age shouldBe numThree
+            age shouldBe ageThree
             sex shouldBe "f"
         }
     get("SonicDJ$four")
         .shouldNotBeNull().apply {
             name shouldBe "SonicDJ$four"
-            age shouldBe numFour
+            age shouldBe ageFour
             sex shouldBe "m"
         }
 }

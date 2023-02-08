@@ -4,13 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigDecimal
 
 data class SoldItems(
-    val seaCabbage: BigDecimal,
-    val tusks: Int,
-)
+    val seaCabbage: Long,
+    val tusks: Long,
+) {
+    companion object {
+        operator fun invoke() = SoldItems(0, 0)
+    }
+}
 
 data class EffectiveStock(
-    val seaCabbage: BigDecimal,
-    val tusks: Int,
+    val seaCabbage: Long,
+    val tusks: Long,
 )
 
 data class CustomerOrder(
@@ -22,16 +26,16 @@ data class CustomerOrder(
 
 data class Order(
     @JsonProperty
-    val seaCabbage: BigDecimal = BigDecimal.ZERO,
+    val seaCabbage: Long = 0,
     @JsonProperty
-    val tusks: Int = 0,
+    val tusks: Long = 0,
 )
 
 data class OrderResponse(
     @JsonProperty
     val seaCabbage: BigDecimal,
     @JsonProperty
-    val tusks: Int,
+    val tusks: Long,
     @JsonProperty("seaCabbage-available-in-days")
     val cabbagesAvailableInDays: Int = 0,
     @JsonProperty("tusks-available-in-days")

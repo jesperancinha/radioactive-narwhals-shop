@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>backend-long</artifactId>
+    <artifactId>backend-long-ap</artifactId>
     <name>RadioactiveNarwhalsShop :: Long Naif Solution</name>
     <dependencies>
         <dependency>

@@ -1,18 +1,20 @@
 package org.jesperancinha.narwhals.dao
 
 import com.hazelcast.core.HazelcastInstance
-import org.jesperancinha.narwhals.*
-import org.jesperancinha.narwhals.safe.*
+import org.jesperancinha.narwhals.NarwhalInterface
+import org.jesperancinha.narwhals.NarwhalsInterface
+import org.jesperancinha.narwhals.anti.pattern.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.status
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
-import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
 
 private const val SALES_MAP = "salesMap"
+
+typealias SeaCabbagesQuantity = Long
+typealias TusksQuantity = Long
 
 @Service
 class NarwhalsWebShopDao(
@@ -20,14 +22,14 @@ class NarwhalsWebShopDao(
     private val hazelcastNarwhalsInstance: HazelcastInstance,
 ) {
 
-    fun mapNarwhals(): MutableMap<String, org.jesperancinha.narwhals.safe.Narwhal> = hazelcastNarwhalsInstance.getMap("narwhals")
+    fun mapNarwhals(): MutableMap<String, Narwhal> = hazelcastNarwhalsInstance.getMap("narwhals")
 
     fun mapSales(): MutableMap<String, SoldItems> = hazelcastNarwhalsInstance.getMap("sales")
 
-    fun loadWebShop(narwhals: NarwhalsInterface<NarwhalInterface>) = mapNarwhals().clear().run {
+    fun loadWebShop(narwhals: NarwhalsInterface<NarwhalInterface<Long>>) = mapNarwhals().clear().run {
         mapSales().apply {
             clear()
-            put(SALES_MAP, SoldItems(ZERO, 0))
+            put(SALES_MAP, SoldItems())
         }
 
         narwhals.toDomain().narwhal.forEach { narwhal ->
@@ -35,24 +37,24 @@ class NarwhalsWebShopDao(
         }
     }
 
-    fun findStocks(days: Int) = Narwhals(narwhal = mapNarwhals().map { it.value }).toCurrentStock(days)
+    fun findStocks(days: Long) = Narwhals(narwhal = mapNarwhals().map { it.value }).toCurrentStock(days)
 
-    fun findNarwhals(days: Int) = Narwhals(narwhal = mapNarwhals().map { it.value }).toCurrentNarwhals(days)
+    fun findNarwhals(days: Long) = Narwhals(narwhal = mapNarwhals().map { it.value }).toCurrentNarwhals(days)
 
-    fun areNarwhalsActive(days: Int) =
+    fun areNarwhalsActive(days: Long) =
         Narwhals(narwhal = mapNarwhals().map { it.value }).toOutput(days).narwhals.narwhal.any {
             it.age < NARWHAL_YEARS_TO_LIVE
         }
 
     @Synchronized
-    fun order(customerOrder: CustomerOrder, days: Int): ResponseEntity<OrderResponse> =
+    fun order(customerOrder: CustomerOrder, days: Long): ResponseEntity<OrderResponse> =
         mapSales().let { mapSalesPerYear ->
             requireNotNull(mapSalesPerYear[SALES_MAP])
                 .let { sales: SoldItems ->
                     findStocks(days)
                         .let { producedStock ->
                             EffectiveStock(
-                                seaCabbage = producedStock.seaCabbage.subtract(sales.seaCabbage),
+                                seaCabbage = producedStock.seaCabbage - sales.seaCabbage,
                                 tusks = producedStock.tusks - sales.tusks
                             )
                         }
@@ -62,14 +64,14 @@ class NarwhalsWebShopDao(
                             val hasCabbage = effectiveStock.hasCabbages(orderedCabbage)
                             val hasTusks = effectiveStock.hasTusks(orderedTusks)
                             val newSales = SoldItems(
-                                seaCabbage = sales.seaCabbage.add(if (hasCabbage) orderedCabbage else 0.toBigDecimal()),
+                                seaCabbage = sales.seaCabbage + (if (hasCabbage) orderedCabbage else 0),
                                 tusks = sales.tusks + if (hasTusks) orderedTusks else 0,
                             )
                             mapSalesPerYear.apply {
                                 put(SALES_MAP, newSales)
                             }
                             OrderResponse(
-                                seaCabbage = (if (hasCabbage) orderedCabbage else 0.toBigDecimal()).setScale(
+                                seaCabbage = (if (hasCabbage) orderedCabbage else 0).toBigDecimal().setScale(
                                     1,
                                     RoundingMode.FLOOR
                                 ),
@@ -105,7 +107,7 @@ class NarwhalsWebShopDao(
     private fun OrderResponse.fillPredictions(
         order: Order,
         newSales: SoldItems,
-        days: Int,
+        days: Long,
         hasCabbage: Boolean = false,
         hasTusks: Boolean = false,
     ) = this.copy(
@@ -116,41 +118,41 @@ class NarwhalsWebShopDao(
         tusksAvailableInDays = if (!hasTusks) order.tusks.availableTusksFromSalesInDays(newSales, days) else 0
     )
 
-    private fun BigDecimal.availableCabbageFromSalesInDays(newSales: SoldItems, days: Int): Int =
+    private fun SeaCabbagesQuantity.availableCabbageFromSalesInDays(newSales: SoldItems, days: Long): Int =
         generateSequence(days to findStocks(days).seaCabbage) { (d, _) ->
             val seaCabbage = findStocks(d + 1).seaCabbage
             when {
-                d == -1 -> -2 to this.add(newSales.seaCabbage)
-                !areNarwhalsActive(d) -> -1 to this.add(newSales.seaCabbage)
+                d == -1L -> -2L to (this + (newSales.seaCabbage))
+                !areNarwhalsActive(d) -> -1L to (this + newSales.seaCabbage)
                 else -> d + 1 to seaCabbage
             }
         }.takeWhile { (d, seaCabbage) ->
-            this > seaCabbage.subtract(newSales.seaCabbage) || d == -1
+            this > (seaCabbage - (newSales.seaCabbage)) || d == -1L
         }
             .toList()
             .let {
-                if (it.firstOrNull { (d, _) -> d == -1 } != null) emptyList() else it
+                if (it.firstOrNull { (d, _) -> d == -1L } != null) emptyList() else it
             }
             .count()
 
-    private fun Int.availableTusksFromSalesInDays(newSales: SoldItems, days: Int): Int =
+    private fun TusksQuantity.availableTusksFromSalesInDays(newSales: SoldItems, days: Long): Int =
         generateSequence(days to findStocks(days).tusks) { (d, _) ->
             val tusks = findStocks(d + 1).tusks
             when {
-                d == -1 -> -2 to (this + newSales.tusks)
-                !areNarwhalsActive(d) -> -1 to (this + newSales.tusks)
-                else -> d + 1 to tusks
+                d == -1L -> -2L to (this + newSales.tusks)
+                !areNarwhalsActive(d) -> -1L to (this + newSales.tusks)
+                else -> d + 1L to tusks
             }
         }.takeWhile { (d, tusks) ->
-            this > (tusks - newSales.tusks) || d == -1
+            this > (tusks - newSales.tusks) || d == -1L
         }
             .toList()
             .let {
-                if (it.firstOrNull { (d, _) -> d == -1 } != null) emptyList() else it
+                if (it.firstOrNull { (d, _) -> d == -1L } != null) emptyList() else it
             }
             .count()
 }
 
 
-private fun EffectiveStock.hasCabbages(orderedCabbage: BigDecimal) = orderedCabbage <= this.seaCabbage
-private fun EffectiveStock.hasTusks(orderedTusks: Int) = orderedTusks <= this.tusks
+private fun EffectiveStock.hasCabbages(orderedCabbage: Long) = orderedCabbage <= this.seaCabbage
+private fun EffectiveStock.hasTusks(orderedTusks: Long) = orderedTusks <= this.tusks

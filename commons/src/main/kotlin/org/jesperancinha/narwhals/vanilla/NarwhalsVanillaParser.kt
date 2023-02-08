@@ -6,15 +6,17 @@ import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import org.jesperancinha.narwhals.NarwhalInterface
+import org.jesperancinha.narwhals.NarwhalsInterface
 import java.io.File
 import java.io.InputStream
 import java.math.BigDecimal.*
 import java.math.RoundingMode.*
 import java.nio.charset.Charset
 
-val NARWHAL_YEAR_DURATION = 1000
-val NARWHAL_YEARS_TO_LIVE = 20
-val VANILLA_FACTOR = 1000
+const val NARWHAL_YEAR_DURATION = 1000
+const val NARWHAL_YEARS_TO_LIVE = 20
+const val VANILLA_FACTOR = 1000
 
 typealias ElapsedDays = Long
 typealias AgeInYears = Long
@@ -27,13 +29,13 @@ data class Output(
 
 data class CurrentStock(
     val seaCabbage: Long,
-    val tusks: Int,
+    val tusks: Long,
 )
 
 data class CurrentNarwhals(
     @JsonProperty("narwhals")
     override val narwhal: List<CurrentNarwhal>,
-) : NarwhalsInterface<NarwhalInterface>
+) : NarwhalsInterface<NarwhalInterface<Long>>
 
 data class CurrentNarwhal(
     @JsonProperty
@@ -43,7 +45,7 @@ data class CurrentNarwhal(
     override val sex: String,
     @JsonProperty("age-last-tusk-shed")
     val ageLastTuskShed: Long,
-) : NarwhalInterface
+) : NarwhalInterface<Long>
 
 
 internal val kotlinXmlMapper = XmlMapper(JacksonXmlModule().apply {
@@ -85,7 +87,7 @@ fun Narwhals.toCurrentStock(elapsedDays: Long) =
     )
 
 private fun AgeInYears.tusksForecastInElapsedDays(elapsedDays: Long) =
-    if (elapsedDays == 0L) 0 else tuskSheddingTable(elapsedDays).count() + 1
+    if (elapsedDays == 0L) 0 else tuskSheddingTable(elapsedDays).count() + 1L
 
 private fun AgeInYears.tuskSheddingTable(elapsedDays: Long) = elapsedDays.tuskShedSequence(this)
 
@@ -106,11 +108,12 @@ fun ElapsedDays.tuskShedSequence(ageYears: Long) =
         val shedAfter = (ageYears * NARWHAL_YEAR_DURATION / VANILLA_FACTOR).tusksFall().toLong() / VANILLA_FACTOR
         (tuskShedDay + shedAfter) to (ageYears + (shedAfter * VANILLA_FACTOR / NARWHAL_YEAR_DURATION))
     }.takeWhile { (tuskShedDay, ageYears) ->
-       tuskShedDay < this && ageYears <= NARWHAL_YEARS_TO_LIVE * VANILLA_FACTOR
+        tuskShedDay < this && ageYears <= NARWHAL_YEARS_TO_LIVE * VANILLA_FACTOR
     }.filter { (tuskShedDay, _) ->
-        tuskShedDay != 0L }.toList()
+        tuskShedDay != 0L
+    }.toList()
 
-fun NarwhalsInterface<NarwhalInterface>.toDomain() =
+fun NarwhalsInterface<NarwhalInterface<Long>>.toDomain() =
     Narwhals(
         narwhal = requireNotNull(narwhal?.map {
             Narwhal(

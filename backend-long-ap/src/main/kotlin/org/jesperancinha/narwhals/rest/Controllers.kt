@@ -1,7 +1,7 @@
 package org.jesperancinha.narwhals.rest
 
-import org.jesperancinha.narwhals.safe.CurrentNarwhals
-import org.jesperancinha.narwhals.safe.XmlNarwhals
+import org.jesperancinha.narwhals.anti.pattern.CurrentNarwhals
+import org.jesperancinha.narwhals.anti.pattern.XmlNarwhals
 import org.jesperancinha.narwhals.dao.CustomerOrder
 import org.jesperancinha.narwhals.dao.NarwhalsWebShopDao
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +25,7 @@ internal class NarwhalsShopController(
         value = ["/load"],
         consumes = [MediaType.APPLICATION_XML_VALUE]
     )
-    suspend fun loadNarwhals(@RequestBody narwhals: org.jesperancinha.narwhals.safe.XmlNarwhals): ResponseEntity<String> =
+    suspend fun loadNarwhals(@RequestBody narwhals: XmlNarwhals): ResponseEntity<String> =
         narwhalsWebShopDao.loadWebShop(narwhals)
             .run { ResponseEntity.status(HttpStatus.RESET_CONTENT).build() }
 
@@ -34,21 +34,21 @@ internal class NarwhalsShopController(
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    suspend fun getStocks(@PathVariable days: Int) = narwhalsWebShopDao.findStocks(days)
+    suspend fun getStocks(@PathVariable days: Long) = narwhalsWebShopDao.findStocks(days)
 
     @GetMapping(
         value = ["/narwhals/{days}"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    suspend fun getNarwhalss(@PathVariable days: Int): CurrentNarwhals = narwhalsWebShopDao.findNarwhals(days)
+    suspend fun getNarwhalss(@PathVariable days: Long): CurrentNarwhals = narwhalsWebShopDao.findNarwhals(days)
 
     @PostMapping(
         value = ["/order/{days}"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    suspend fun orders(@RequestBody customerOrder: CustomerOrder, @PathVariable days: Int) =
+    suspend fun orders(@RequestBody customerOrder: CustomerOrder, @PathVariable days: Long) =
         narwhalsWebShopDao.order(customerOrder, days - 1)
 
 }

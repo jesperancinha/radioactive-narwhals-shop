@@ -1,7 +1,8 @@
 package org.jesperancinha.narwhals.dao
 
 import com.hazelcast.core.HazelcastInstance
-import org.jesperancinha.narwhals.*
+import org.jesperancinha.narwhals.NarwhalInterface
+import org.jesperancinha.narwhals.NarwhalsInterface
 import org.jesperancinha.narwhals.safe.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.*
@@ -20,11 +21,11 @@ class NarwhalsWebShopDao(
     private val hazelcastNarwhalsInstance: HazelcastInstance,
 ) {
 
-    fun mapNarwhals(): MutableMap<String, org.jesperancinha.narwhals.safe.Narwhal> = hazelcastNarwhalsInstance.getMap("narwhals")
+    fun mapNarwhals(): MutableMap<String, Narwhal> = hazelcastNarwhalsInstance.getMap("narwhals")
 
     fun mapSales(): MutableMap<String, SoldItems> = hazelcastNarwhalsInstance.getMap("sales")
 
-    fun loadWebShop(narwhals: NarwhalsInterface<NarwhalInterface>) = mapNarwhals().clear().run {
+    fun loadWebShop(narwhals: NarwhalsInterface<NarwhalInterface<BigDecimal>>) = mapNarwhals().clear().run {
         mapSales().apply {
             clear()
             put(SALES_MAP, SoldItems(ZERO, 0))

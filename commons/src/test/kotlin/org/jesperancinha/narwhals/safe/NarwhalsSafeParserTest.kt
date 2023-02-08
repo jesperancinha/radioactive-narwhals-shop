@@ -1,11 +1,12 @@
-package org.jesperancinha.narwhals.anti.pattern
+package org.jesperancinha.narwhals.safe
 
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
-class NarwhalsParserTest {
+class NarwhalsSafeParserTest {
 
     @Test
     fun `should read a narwhals correctly`() {
@@ -18,39 +19,28 @@ class NarwhalsParserTest {
                     .apply {
                         get(0).apply {
                             name shouldBe "SonicDJ1"
-                            age shouldBe 8000L
+                            age shouldBe BigDecimal.valueOf(8)
                             sex shouldBe "f"
                         }
                         get(1).apply {
                             name shouldBe "SonicDJ2"
-                            age shouldBe 19000L
+                            age shouldBe BigDecimal.valueOf(19)
                             sex shouldBe "f"
                         }
                         get(2).apply {
                             name shouldBe "SonicDJ3"
-                            age shouldBe 12000L
+                            age shouldBe BigDecimal(12)
                             sex shouldBe "f"
                         }
                         get(3).apply {
                             name shouldBe "SonicDJ4"
-                            age shouldBe 18500
+                            age shouldBe BigDecimal(18.5)
                             sex shouldBe "m"
                         }
                     }
             }
     }
 
-    /**
-     * The first problem of using this Long solution comes when making the calculations
-     * Most of the time the assumption os that using a Long on a milimetric scale will be enough, however in this case the difference arises
-     *
-     * Using BigDecimals, the expected result was 17531,28
-     * Using Long, however the result is 17531271L
-     *
-     * Comparing both: 17531280 - 17531271L = 9L difference.
-     *
-     * 9L means in this case 9 grams and this proves that using Long to "avoid the complexity of Decimals" and "useless computation" is actually a bad idea
-     */
     @Test
     fun `should make elapse 13 day predictions correctly`() {
         this.javaClass.getResourceAsStream("/narwhals1.xml")
@@ -59,7 +49,7 @@ class NarwhalsParserTest {
             .toOutput(13)
             .apply {
                 stock.apply {
-                    seaCabbage shouldBe 17531271L
+                    seaCabbage shouldBe BigDecimal("17531.280")
                     tusks shouldBe 4
                 }
                 narwhals.apply {
@@ -68,40 +58,28 @@ class NarwhalsParserTest {
                         .apply {
                             get(0).apply {
                                 name shouldBe "SonicDJ1"
-                                age shouldBe 8013L
-                                ageLastTuskShed shouldBe 8000L
+                                age shouldBe BigDecimal("8.013")
+                                ageLastTuskShed shouldBe BigDecimal(8)
                             }
                             get(1).apply {
                                 name shouldBe "SonicDJ2"
-                                age shouldBe 19013L
-                                ageLastTuskShed shouldBe 19000L
+                                age shouldBe BigDecimal("19.013")
+                                ageLastTuskShed shouldBe BigDecimal(19)
                             }
                             get(2).apply {
                                 name shouldBe "SonicDJ3"
-                                age shouldBe 12013L
-                                ageLastTuskShed shouldBe 12000L
+                                age shouldBe BigDecimal("12.013")
+                                ageLastTuskShed shouldBe BigDecimal(12)
                             }
                             get(3).apply {
                                 name shouldBe "SonicDJ4"
-                                age shouldBe 18513L
-                                ageLastTuskShed shouldBe 18500L
+                                age shouldBe BigDecimal("18.513")
+                                ageLastTuskShed shouldBe BigDecimal(18.5)
                             }
                         }
                 }
             }
     }
-
-    /**
-     * The first problem of using this Long solution comes when making the calculations
-     * Most of the time the assumption os that using a Long on a milimetric scale will be enough, however in this case the difference arises
-     *
-     * Using BigDecimals, the expected result was 18878.160
-     * Using Long, however the result is 18878151L
-     *
-     * Comparing both: 18878160L - 18878151L = 9L difference.
-     *
-     * 9L means in this case 9 grams and this proves that using Long to "avoid the complexity of Decimals" and "useless computation" is actually a bad idea
-     */
     @Test
     fun `should make elapse 14 day predictions correctly`() {
         this.javaClass.getResourceAsStream("/narwhals1.xml")
@@ -110,7 +88,7 @@ class NarwhalsParserTest {
             .toOutput(14)
             .apply {
                 stock.apply {
-                    seaCabbage shouldBe 18878151L
+                    seaCabbage shouldBe BigDecimal("18878.160")
                     tusks shouldBe 4
                 }
                 narwhals.apply {
@@ -119,23 +97,23 @@ class NarwhalsParserTest {
                         .apply {
                             get(0).apply {
                                 name shouldBe "SonicDJ1"
-                                age shouldBe 8014
-                                ageLastTuskShed shouldBe 8000
+                                age shouldBe BigDecimal("8.014")
+                                ageLastTuskShed shouldBe BigDecimal(8)
                             }
                             get(1).apply {
                                 name shouldBe "SonicDJ2"
-                                age shouldBe 19014
-                                ageLastTuskShed shouldBe 19000
+                                age shouldBe BigDecimal("19.014")
+                                ageLastTuskShed shouldBe BigDecimal(19)
                             }
                             get(2).apply {
                                 name shouldBe "SonicDJ3"
-                                age shouldBe 12014
-                                ageLastTuskShed shouldBe 12000
+                                age shouldBe BigDecimal("12.014")
+                                ageLastTuskShed shouldBe BigDecimal(12)
                             }
                             get(3).apply {
                                 name shouldBe "SonicDJ4"
-                                age shouldBe 18514
-                                ageLastTuskShed shouldBe 18500
+                                age shouldBe BigDecimal("18.514")
+                                ageLastTuskShed shouldBe BigDecimal(18.5)
                             }
                         }
                 }
@@ -143,32 +121,29 @@ class NarwhalsParserTest {
     }
 
     @Test
-    fun `should test tuskShedding of day 13`() {
-        4000L.tusksForecastInElapsedDays(13).first shouldBe 0
+    fun `should test tuskShedding of day 13`(){
+        13.toBigDecimal().tuskShedSequence(4.toBigDecimal()).shouldHaveSize(0)
     }
 
     @Test
-    fun `should test tuskShedding of day 12`() {
-        4000L.tusksForecastInElapsedDays(12L).first shouldBe 0
+    fun `should test tuskShedding of day 12`(){
+        12.toBigDecimal().tuskShedSequence(4.toBigDecimal()).shouldHaveSize(0)
     }
 
     @Test
-    fun `should test tuskShedding of day 14`() {
-        4000L.tusksForecastInElapsedDays(14L).first shouldBe 0
+    fun `should test tuskShedding of day 14`(){
+        14.toBigDecimal().tuskShedSequence(4.toBigDecimal()).shouldHaveSize(0)
     }
-
     @Test
-    fun `should test tuskShedding sequence of day 1000`() {
-        4000L.tusksForecastInElapsedDays(1000L).first shouldBe 4
+    fun `should test tuskShedding sequence of day 1000`(){
+        1000.toBigDecimal().tuskShedSequence(4.toBigDecimal()).shouldHaveSize(4)
     }
-
     @Test
-    fun `should test tuskShedding sequence of day 20000`() {
-        4000L.tusksForecastInElapsedDays(20000L).first shouldBe 51
+    fun `should test tuskShedding sequence of day 20000`(){
+        20000.toBigDecimal().tuskShedSequence(4.toBigDecimal()).shouldHaveSize(51)
     }
-
     @Test
-    fun `should test tuskShedding sequence of day 40000`() {
-        4000L.tusksForecastInElapsedDays(40000L).first shouldBe 51
+    fun `should test tuskShedding sequence of day 40000`(){
+        40000.toBigDecimal().tuskShedSequence(4.toBigDecimal()).shouldHaveSize(51)
     }
 }
