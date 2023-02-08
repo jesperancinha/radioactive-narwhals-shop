@@ -1,10 +1,5 @@
 package org.jesperancinha.narwhals.rest
 
-import org.jesperancinha.narwhals.safe.Narwhal
-import org.jesperancinha.narwhals.dao.CustomerOrder
-import org.jesperancinha.narwhals.dao.Order
-import org.jesperancinha.narwhals.dao.OrderResponse
-import org.jesperancinha.narwhals.dao.NarwhalsWebShopDao
 import io.kotest.common.runBlocking
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldBeNull
@@ -14,15 +9,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import org.jesperancinha.narwhals.dao.CustomerOrder
+import org.jesperancinha.narwhals.dao.NarwhalsWebShopDao
+import org.jesperancinha.narwhals.dao.Order
+import org.jesperancinha.narwhals.dao.OrderResponse
+import org.jesperancinha.narwhals.shouldAssertNarwhals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.http.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod.POST
 import org.springframework.http.HttpStatus.*
-import org.springframework.http.MediaType.*
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.http.MediaType.APPLICATION_XML_VALUE
+import org.springframework.http.ResponseEntity
 import java.math.BigDecimal
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -47,14 +50,10 @@ class NarwhalsShopControllerTest @Autowired constructor(
             narwhalsWebShopDao.mapNarwhals()
                 .shouldNotBeNull()
                 .shouldAssertNarwhals(
-                    1,
-                    2,
-                    3,
-                    4,
-                    8.toBigDecimal(),
-                    19.toBigDecimal(),
-                    12.toBigDecimal(),
-                    18.5.toBigDecimal()
+                    8.toBigDecimal() to "f",
+                    19.toBigDecimal() to "f",
+                    12.toBigDecimal() to "f",
+                    18.5.toBigDecimal() to "m"
                 )
         }
 
@@ -69,14 +68,10 @@ class NarwhalsShopControllerTest @Autowired constructor(
             narwhalsWebShopDao.mapNarwhals()
                 .shouldNotBeNull()
                 .shouldAssertNarwhals(
-                    one = 5,
-                    two = 6,
-                    three = 7,
-                    four = 8,
-                    9.toBigDecimal(),
-                    18.5.toBigDecimal(),
-                    13.6.toBigDecimal(),
-                    11.7.toBigDecimal()
+                    9.toBigDecimal() to "f",
+                    18.5.toBigDecimal() to "f",
+                    13.6.toBigDecimal() to "f",
+                    11.7.toBigDecimal() to "m"
                 )
                 .shouldHaveSize(4)
         }
@@ -215,40 +210,4 @@ class NarwhalsShopControllerTest @Autowired constructor(
             .shouldNotBeNull()
             .statusCode shouldBe RESET_CONTENT
     }
-}
-
-private fun MutableMap<String, org.jesperancinha.narwhals.safe.Narwhal>.shouldAssertNarwhals(
-    one: Int,
-    two: Int,
-    three: Int,
-    four: Int,
-    numOne: BigDecimal,
-    numTwo: BigDecimal,
-    numThree: BigDecimal,
-    numFour: BigDecimal,
-) = apply {
-    get("SonicDJ$one")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$one"
-            age shouldBe numOne
-            sex shouldBe "f"
-        }
-    get("SonicDJ$two")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$two"
-            age shouldBe numTwo
-            sex shouldBe "f"
-        }
-    get("SonicDJ$three")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$three"
-            age shouldBe numThree
-            sex shouldBe "f"
-        }
-    get("SonicDJ$four")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$four"
-            age shouldBe numFour
-            sex shouldBe "m"
-        }
 }

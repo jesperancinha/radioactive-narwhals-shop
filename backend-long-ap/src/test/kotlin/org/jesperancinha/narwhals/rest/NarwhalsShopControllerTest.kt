@@ -1,10 +1,5 @@
 package org.jesperancinha.narwhals.rest
 
-import org.jesperancinha.narwhals.anti.pattern.Narwhal
-import org.jesperancinha.narwhals.dao.CustomerOrder
-import org.jesperancinha.narwhals.dao.Order
-import org.jesperancinha.narwhals.dao.OrderResponse
-import org.jesperancinha.narwhals.dao.NarwhalsWebShopDao
 import io.kotest.common.runBlocking
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.nulls.shouldBeNull
@@ -14,15 +9,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import org.jesperancinha.narwhals.dao.CustomerOrder
+import org.jesperancinha.narwhals.dao.NarwhalsWebShopDao
+import org.jesperancinha.narwhals.dao.Order
+import org.jesperancinha.narwhals.dao.OrderResponse
+import org.jesperancinha.narwhals.shouldAssertNarwhals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.http.*
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod.POST
 import org.springframework.http.HttpStatus.*
-import org.springframework.http.MediaType.*
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.http.MediaType.APPLICATION_XML_VALUE
+import org.springframework.http.ResponseEntity
 import java.math.BigDecimal
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -47,15 +50,12 @@ class NarwhalsShopControllerTest @Autowired constructor(
             narwhalsWebShopDao.mapNarwhals()
                 .shouldNotBeNull()
                 .shouldAssertNarwhals(
-                    1,
-                    2,
-                    3,
-                    4,
-                    8000,
-                    19000,
-                    12000,
-                    18500
+                    8000L to "f",
+                    19000L to "f",
+                    12000L to "f",
+                    18500L to "m"
                 )
+                .shouldHaveSize(4)
         }
 
         run {
@@ -69,14 +69,10 @@ class NarwhalsShopControllerTest @Autowired constructor(
             narwhalsWebShopDao.mapNarwhals()
                 .shouldNotBeNull()
                 .shouldAssertNarwhals(
-                    one = 5,
-                    two = 6,
-                    three = 7,
-                    four = 8,
-                    9000,
-                    18500,
-                    13600,
-                    11700
+                    9000L to "f",
+                    18500L to "f",
+                    13600L to "f",
+                    11700L to "m"
                 )
                 .shouldHaveSize(4)
         }
@@ -215,40 +211,4 @@ class NarwhalsShopControllerTest @Autowired constructor(
             .shouldNotBeNull()
             .statusCode shouldBe RESET_CONTENT
     }
-}
-
-private fun MutableMap<String, Narwhal>.shouldAssertNarwhals(
-    one: Int,
-    two: Int,
-    three: Int,
-    four: Int,
-    numOne: Long,
-    numTwo: Long,
-    numThree: Long,
-    numFour: Long,
-) = apply {
-    get("SonicDJ$one")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$one"
-            age shouldBe numOne
-            sex shouldBe "f"
-        }
-    get("SonicDJ$two")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$two"
-            age shouldBe numTwo
-            sex shouldBe "f"
-        }
-    get("SonicDJ$three")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$three"
-            age shouldBe numThree
-            sex shouldBe "f"
-        }
-    get("SonicDJ$four")
-        .shouldNotBeNull().apply {
-            name shouldBe "SonicDJ$four"
-            age shouldBe numFour
-            sex shouldBe "m"
-        }
 }
