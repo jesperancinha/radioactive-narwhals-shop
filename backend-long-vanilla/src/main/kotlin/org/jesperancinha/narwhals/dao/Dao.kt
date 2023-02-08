@@ -3,6 +3,7 @@ package org.jesperancinha.narwhals.dao
 import com.hazelcast.core.HazelcastInstance
 import org.jesperancinha.narwhals.NarwhalInterface
 import org.jesperancinha.narwhals.NarwhalsInterface
+import org.jesperancinha.narwhals.VANILLA_FACTOR
 import org.jesperancinha.narwhals.vanilla.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.*
@@ -43,7 +44,7 @@ class NarwhalsWebShopDao(
 
     fun areNarwhalsActive(days: Long) =
         Narwhals(narwhal = mapNarwhals().map { it.value }).toOutput(days).narwhals.narwhal.any {
-            it.age < NARWHAL_YEARS_TO_LIVE
+            it.age / VANILLA_FACTOR < NARWHAL_YEARS_TO_LIVE
         }
 
     @Synchronized

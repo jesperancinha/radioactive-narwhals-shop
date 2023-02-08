@@ -118,7 +118,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
             CustomerOrder(
                 customer = "PinkOgre",
                 order = Order(
-                    seaCabbage = 70000,
+                    seaCabbage = 70000000,
                     tusks = 3
                 )
             ), jsonHeaders
@@ -143,7 +143,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
             CustomerOrder(
                 customer = "PinkOgre",
                 order = Order(
-                    seaCabbage = 20,
+                    seaCabbage = 20000,
                     tusks = 1
                 )
             ), jsonHeaders
@@ -155,7 +155,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
                     seaCabbage = BigDecimal("0.0"),
                     tusks = 0,
                     cabbagesAvailableInDays = 1,
-                    tusksAvailableInDays = 1
+                    tusksAvailableInDays = 2
                 )
                 statusCode shouldBe NOT_FOUND
             }

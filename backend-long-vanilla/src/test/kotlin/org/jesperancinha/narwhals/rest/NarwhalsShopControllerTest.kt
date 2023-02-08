@@ -89,7 +89,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
             .shouldNotBeNull()
             .apply {
                 body shouldBe OrderResponse(
-                    seaCabbage = 10.0.toBigDecimal(),
+                    seaCabbage = 10000.0.toBigDecimal(),
                     tusks = 1,
                     cabbagesAvailableInDays = 0,
                     tusksAvailableInDays = 0
@@ -180,7 +180,7 @@ class NarwhalsShopControllerTest @Autowired constructor(
                     seaCabbage = BigDecimal("0.0"),
                     tusks = 0,
                     cabbagesAvailableInDays = 4,
-                    tusksAvailableInDays = 282
+                    tusksAvailableInDays = 281
                 )
                 statusCode shouldBe NOT_FOUND
             }

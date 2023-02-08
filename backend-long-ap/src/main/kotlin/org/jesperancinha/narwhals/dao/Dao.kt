@@ -3,6 +3,7 @@ package org.jesperancinha.narwhals.dao
 import com.hazelcast.core.HazelcastInstance
 import org.jesperancinha.narwhals.NarwhalInterface
 import org.jesperancinha.narwhals.NarwhalsInterface
+import org.jesperancinha.narwhals.VANILLA_FACTOR
 import org.jesperancinha.narwhals.anti.pattern.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.*
@@ -43,7 +44,7 @@ class NarwhalsWebShopDao(
 
     fun areNarwhalsActive(days: Long) =
         Narwhals(narwhal = mapNarwhals().map { it.value }).toOutput(days).narwhals.narwhal.any {
-            it.age < NARWHAL_YEARS_TO_LIVE
+            it.age / VANILLA_FACTOR < NARWHAL_YEARS_TO_LIVE
         }
 
     @Synchronized
@@ -120,11 +121,10 @@ class NarwhalsWebShopDao(
 
     private fun SeaCabbagesQuantity.availableCabbageFromSalesInDays(newSales: SoldItems, days: Long): Int =
         generateSequence(days to findStocks(days).seaCabbage) { (d, _) ->
-            val seaCabbage = findStocks(d + 1).seaCabbage
             when {
                 d == -1L -> -2L to (this + (newSales.seaCabbage))
                 !areNarwhalsActive(d) -> -1L to (this + newSales.seaCabbage)
-                else -> d + 1 to seaCabbage
+                else -> d + 1 to findStocks(d + 1).seaCabbage
             }
         }.takeWhile { (d, seaCabbage) ->
             this > (seaCabbage - (newSales.seaCabbage)) || d == -1L

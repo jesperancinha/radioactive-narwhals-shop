@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer
 import jakarta.xml.bind.annotation.adapters.XmlAdapter
 import java.math.BigDecimal
 
+const val VANILLA_FACTOR = 1000
+
 interface NarwhalInterface<T> {
     val name: String?
     val age: T?

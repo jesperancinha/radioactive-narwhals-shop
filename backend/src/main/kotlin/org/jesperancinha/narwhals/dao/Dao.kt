@@ -42,7 +42,7 @@ class NarwhalsWebShopDao(
 
     fun areNarwhalsActive(days: Int) =
         Narwhals(narwhal = mapNarwhals().map { it.value }).toOutput(days).narwhals.narwhal.any {
-            it.age < NARWHAL_YEARS_TO_LIVE
+            it.age  < NARWHAL_YEARS_TO_LIVE
         }
 
     @Synchronized

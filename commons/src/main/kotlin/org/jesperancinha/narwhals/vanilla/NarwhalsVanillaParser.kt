@@ -8,6 +8,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.jesperancinha.narwhals.NarwhalInterface
 import org.jesperancinha.narwhals.NarwhalsInterface
+import org.jesperancinha.narwhals.VANILLA_FACTOR
 import java.io.File
 import java.io.InputStream
 import java.math.BigDecimal.*
@@ -16,7 +17,6 @@ import java.nio.charset.Charset
 
 const val NARWHAL_YEAR_DURATION = 1000
 const val NARWHAL_YEARS_TO_LIVE = 20
-const val VANILLA_FACTOR = 1000
 
 typealias ElapsedDays = Long
 typealias AgeInYears = Long
@@ -115,7 +115,7 @@ fun ElapsedDays.tuskShedSequence(ageYears: Long) =
 
 fun NarwhalsInterface<NarwhalInterface<Long>>.toDomain() =
     Narwhals(
-        narwhal = requireNotNull(narwhal?.map {
+        narwhal = requireNotNull(narwhal.map {
             Narwhal(
                 name = requireNotNull(it.name),
                 age = requireNotNull(it.age),
