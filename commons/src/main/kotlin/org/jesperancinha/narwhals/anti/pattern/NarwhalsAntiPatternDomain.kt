@@ -43,5 +43,11 @@ data class XmlNarwhal(
     override var sex: String? = null,
 ) : NarwhalInterface<Long>
 
-fun ElapsedDays.dailyCabbages() = (1200 - (this * VANILLA_FACTOR * 0.06) / VANILLA_FACTOR) * VANILLA_FACTOR
-fun ElapsedDays.tusksFall() = (200 + (this * VANILLA_FACTOR * 0.01) / VANILLA_FACTOR) * VANILLA_FACTOR
+/**
+ * The daily cabbage calculation could have been shortened to use 60 right? However, there is a conversion happening
+ * underwater that turns the calculation into a double. This means that Big numbers can go through. However, Longs will be cut out.
+ * This is yet another reason to not use Long implementations to work with decimals. Especially not in interviews.
+ */
+//fun ElapsedDays.dailyCabbages(): Long = ((1200 - (this * 60) / VANILLA_FACTOR) * VANILLA_FACTOR).toLong()
+fun ElapsedDays.dailyCabbages(): Long = ((1200 - (this * VANILLA_FACTOR * 0.06) / VANILLA_FACTOR) * VANILLA_FACTOR).toLong()
+fun ElapsedDays.tusksFall(): Long = (200 + ((this * 10) / VANILLA_FACTOR)) * VANILLA_FACTOR
