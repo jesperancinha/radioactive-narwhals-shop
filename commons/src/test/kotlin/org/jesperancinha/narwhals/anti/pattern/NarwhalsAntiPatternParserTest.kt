@@ -47,7 +47,7 @@ class NarwhalsAntiPatternParserTest {
      * Using BigDecimals, the expected result was 17531,28
      * Using Long, however the result is 17531271L
      *
-     * Comparing both: 17531280 - 17531271L = 9L difference.
+     * Comparing both: 17531280 - 17531265L = 15L difference.
      *
      * 9L means in this case 9 grams and this proves that using Long to "avoid the complexity of Decimals" and "useless computation" is actually a bad idea
      */
@@ -59,7 +59,7 @@ class NarwhalsAntiPatternParserTest {
             .toOutput(13)
             .apply {
                 stock.apply {
-                    seaCabbage shouldBe 17531271L
+                    seaCabbage shouldBe 17531265L
                     tusks shouldBe 4
                 }
                 narwhals.apply {
@@ -98,7 +98,7 @@ class NarwhalsAntiPatternParserTest {
      * Using BigDecimals, the expected result was 18878.160
      * Using Long, however the result is 18878151L
      *
-     * Comparing both: 18878160L - 18878151L = 9L difference.
+         * Comparing both: 18878160L - 18878145L = 15L difference.
      *
      * 9L means in this case 9 grams and this proves that using Long to "avoid the complexity of Decimals" and "useless computation" is actually a bad idea
      */
@@ -110,7 +110,7 @@ class NarwhalsAntiPatternParserTest {
             .toOutput(14)
             .apply {
                 stock.apply {
-                    seaCabbage shouldBe 18878151L
+                    seaCabbage shouldBe 18878145L
                     tusks shouldBe 4
                 }
                 narwhals.apply {

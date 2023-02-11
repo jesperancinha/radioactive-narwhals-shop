@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonRootName
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import jakarta.xml.bind.annotation.*
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter
-import org.jesperancinha.narwhals.DecimalToMillisAdapter
-import org.jesperancinha.narwhals.DecimalToMillisDeserializer
-import org.jesperancinha.narwhals.NarwhalInterface
-import org.jesperancinha.narwhals.NarwhalsInterface
+import org.jesperancinha.narwhals.*
 
 @JsonRootName("narwhals")
 data class Narwhals(
@@ -46,5 +43,5 @@ data class XmlNarwhal(
     override var sex: String? = null,
 ) : NarwhalInterface<Long>
 
-fun ElapsedDays.dailyCabbages() = (1200 - this * 0.06) * 1000
-fun ElapsedDays.tusksFall() = (200 + this * 0.01) * 1000
+fun ElapsedDays.dailyCabbages() = (1200 - (this * VANILLA_FACTOR * 0.06) / VANILLA_FACTOR) * VANILLA_FACTOR
+fun ElapsedDays.tusksFall() = (200 + (this * VANILLA_FACTOR * 0.01) / VANILLA_FACTOR) * VANILLA_FACTOR
