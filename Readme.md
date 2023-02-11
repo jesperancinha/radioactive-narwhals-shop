@@ -31,11 +31,11 @@ The story that backs-up this article is located in [Narwhals.md](Narwhals.md).
 
 ## Project Layout
 
-- [commons](commons) - A common library where the domain and the data transfer objects are shared
-- [rn-data-reader](rn-data-reader) - A data reader for input files in XML format
-- [backend](backend) - The go-to solution for the current case
-- [backend-long](backend-long) -  A solution based on old paradigms, filled with anti-patterns and old software patterns now obsolete. In the code references to anti-pattern will be used to refer code used by this module.
-- [backend-long-vanilla](backend-long-vanilla) - One solution that avoids using decimals by using long
+-   [commons](commons) - A common library where the domain and the data transfer objects are shared
+-   [rn-data-reader](rn-data-reader) - A data reader for input files in XML format
+-   [backend](backend) - The go-to solution for the current case
+-   [backend-long](backend-long) -  A solution based on old paradigms, filled with anti-patterns and old software patterns now obsolete. In the code references to anti-pattern will be used to refer code used by this module.
+-   [backend-long-vanilla](backend-long-vanilla) - One solution that avoids using decimals by using long
 
 >NOTE: The `long` and `long-vanilla` solutions are currently being implemented, and they have started out as blatant copies of the `backend`.
 
@@ -57,7 +57,7 @@ make b
       </a>
 </div>
 
-- [Narwhal Wikipedia](https://en.wikipedia.org/wiki/Narwhal)
+-   [Narwhal Wikipedia](https://en.wikipedia.org/wiki/Narwhal)
 
 ## Coverage Graphs
 
@@ -65,7 +65,7 @@ make b
 ![alt grid](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/tree.svg?token=DBqHBjzDxf)
 ![alt icycle](https://codecov.io/gh/jesperancinha/radioactive-narwhals-shop/branch/main/graphs/icicle.svg?token=DBqHBjzDxf)
 
-## About me 👨🏽‍💻🚀🏳️‍🌈
+## About me
 
 [![alt text](https://raw.githubusercontent.com/jesperancinha/project-signer/master/project-signer-templates/icons-20/JEOrgLogo-20.png "João Esperancinha Homepage")](http://joaofilipesabinoesperancinha.nl)
 [![GitHub followers](https://img.shields.io/github/followers/jesperancinha.svg?label=Jesperancinha&style=social "GitHub")](https://github.com/jesperancinha)
@@ -74,6 +74,8 @@ make b
 | [Sessionize](https://sessionize.com/joao-esperancinha/)
 | [Spotify](https://open.spotify.com/user/jlnozkcomrxgsaip7yvffpqqm?si=b54b89eae8894960)
 | [Medium](https://medium.com/@jofisaes)
+| [YouTube](https://www.youtube.com/@joaoesperancinha/featured)
+| [Instagram](https://www.instagram.com/joaofisaes/)
 | [Buy me a coffee](https://www.buymeacoffee.com/jesperancinha)
 | [Credly Badges](https://www.credly.com/users/joao-esperancinha)
 | [Google Apps](https://play.google.com/store/apps/developer?id=Joao+Filipe+Sabino+Esperancinha)
