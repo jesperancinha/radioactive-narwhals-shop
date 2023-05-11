@@ -37,7 +37,7 @@
         <picocli.version>4.7.3</picocli.version>
         <jackson.version>2.15.0</jackson.version>
 
-        <omni-coveragereporter-maven-plugin.version>0.4.2</omni-coveragereporter-maven-plugin.version>
+        <omni-coveragereporter-maven-plugin.version>0.4.3</omni-coveragereporter-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
     </properties>
 
