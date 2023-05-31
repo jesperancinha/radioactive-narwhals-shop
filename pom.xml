@@ -28,7 +28,7 @@
 
         <kotlinx-coroutines-core.version>1.6.4</kotlinx-coroutines-core.version>
         <jackson-module-kotlin.version>2.15.1</jackson-module-kotlin.version>
-        <jackson.version>2.15.1</jackson.version>
+        <jackson.version>2.15.2</jackson.version>
         <coroutinecache.version>0.9.0</coroutinecache.version>
         <hazelcast.version>5.3.0</hazelcast.version>
         <mockk.version>1.13.5</mockk.version>
