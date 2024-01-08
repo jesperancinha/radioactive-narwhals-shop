@@ -31,7 +31,7 @@
         <jackson.version>2.16.1</jackson.version>
         <coroutinecache.version>0.9.0</coroutinecache.version>
         <hazelcast.version>5.3.6</hazelcast.version>
-        <mockk.version>1.13.8</mockk.version>
+        <mockk.version>1.13.9</mockk.version>
         <kotest.version>5.8.0</kotest.version>
         <springmockk.version>4.0.2</springmockk.version>
         <picocli.version>4.7.5</picocli.version>
