@@ -14,7 +14,7 @@
     <artifactId>commons</artifactId>
     <name>RadioactiveNarwhalsShop :: Commons</name>
     <properties>
-        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <maven-jar-plugin.version>3.4.0</maven-jar-plugin.version>
     </properties>
     <dependencies>
         <dependency>
