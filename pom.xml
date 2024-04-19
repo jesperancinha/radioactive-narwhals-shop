@@ -24,7 +24,7 @@
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <kotlin.version>1.9.23</kotlin.version>
 
-        <spring-boot.version>3.2.4</spring-boot.version>
+        <spring-boot.version>3.2.5</spring-boot.version>
 
         <kotlinx-coroutines-core.version>1.6.4</kotlinx-coroutines-core.version>
         <jackson-module-kotlin.version>2.17.0</jackson-module-kotlin.version>
