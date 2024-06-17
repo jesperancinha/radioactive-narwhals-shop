@@ -4,3 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      postgresql:
+        patterns:
+          - "*postgresql*"
+      maven:
+        patterns:
+          - "*maven*"
+      kotlin:
+        patterns:
+          - "*kotlin*"
