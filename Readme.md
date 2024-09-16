@@ -49,14 +49,6 @@ make b
 
 ## About Narwhals
 
-<div align="center">
-      <a title="Narwhals : animated music video : MrWeebl" href="https://www.youtube.com/watch?v=ykwqXuMPsoc">
-     <img 
-          src="https://img.youtube.com/vi/ykwqXuMPsoc/0.jpg" 
-          style="width:50%;">
-      </a>
-</div>
-
 -   [Narwhal Wikipedia](https://en.wikipedia.org/wiki/Narwhal)
 
 ## Coverage Graphs
