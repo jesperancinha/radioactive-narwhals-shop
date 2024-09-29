@@ -17,3 +17,4 @@ updates:
       jackson:
         patterns:
           - "*jackson*"
+          - "jackson*"
