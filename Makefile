@@ -7,5 +7,7 @@ build-report:
 run-command-example:
 	cd rn-data-reader && java -jar target/rn-data-reader.jar -f ../commons/src/test/resources/narwhals1.xml -d 13
 local-pipeline: b run-command-example
+update-repo-prs:
+	curl -sL https://raw.githubusercontent.com/jesperancinha/project-signer/master/update-all-repo-prs.sh | bash
 deps-plugins-update:
 	curl -sL https://raw.githubusercontent.com/jesperancinha/project-signer/master/pluginUpdatesOne.sh | bash -s -- $(PARAMS)
