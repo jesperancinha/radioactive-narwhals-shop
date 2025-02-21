@@ -17,14 +17,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>19</java.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
         <kotlin.version>2.1.10</kotlin.version>
 
-        <spring-boot.version>3.4.2</spring-boot.version>
+        <spring-boot.version>3.4.3</spring-boot.version>
 
         <kotlinx-coroutines-core.version>1.8.0</kotlinx-coroutines-core.version>
         <jackson-module-kotlin.version>2.18.2</jackson-module-kotlin.version>
