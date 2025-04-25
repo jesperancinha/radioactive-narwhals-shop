@@ -27,15 +27,15 @@
         <spring-boot.version>3.4.5</spring-boot.version>
 
         <kotlinx-coroutines-core.version>1.8.1</kotlinx-coroutines-core.version>
-        <jackson-module-kotlin.version>2.18.3</jackson-module-kotlin.version>
-        <jackson.version>2.18.3</jackson.version>
+        <jackson-module-kotlin.version>2.19.0</jackson-module-kotlin.version>
+        <jackson.version>2.19.0</jackson.version>
         <coroutinecache.version>0.9.0</coroutinecache.version>
         <hazelcast.version>5.5.0</hazelcast.version>
         <mockk.version>1.14.0</mockk.version>
         <kotest.version>5.9.1</kotest.version>
         <springmockk.version>4.0.2</springmockk.version>
         <picocli.version>4.7.7</picocli.version>
-        <jackson.version>2.18.3</jackson.version>
+        <jackson.version>2.19.0</jackson.version>
 
         <omni-coveragereporter-maven-plugin.version>0.4.4</omni-coveragereporter-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
